@@ -4,8 +4,8 @@ import json
 import datetime
 
 
-filename = os.path.join(os.path.dirname(__file__), "pmacct.json")
 indexname = "pmacct-" + datetime.datetime.now().strftime("%Y-%m-%d")
+gmt = datetime.datetime.now() - datetime.timedelta(hours=3)
 
 es = OpenSearch(
     hosts=[{"host": "localhost", "port": 9200}],
@@ -14,19 +14,18 @@ es = OpenSearch(
     verify_certs=False,
 )
 
+data = []
+for line in sys.stdin:
+    data.append(line)
 
-with open(filename, "r") as f:
-    data = f.readlines()
 
-    for i in range(len(data)):
-        res = json.loads(data[i])
+for line in data:
+    res = json.loads(line)
+    res["datetime"] = gmt
 
-        # add datetime field to each entry in GMT (now - 3 hours)
-        gmt = datetime.datetime.now() - datetime.timedelta(hours=3)
-        res["datetime"] = gmt
-
-        # print(res)
+    try:
         es.index(index=indexname, body=res)
-
+    except Exception as e:
+        print(f"Error: {e} in line: {line}")
 
 es.close()

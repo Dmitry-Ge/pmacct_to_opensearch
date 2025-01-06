@@ -1,4 +1,5 @@
-Some instructions about transfer netflow data into OpenSearch
+### Some steps to perform transfer netflow data into OpenSearch
+
 1. Create venv for your script
 2. Add requirements:
 ```

@@ -1,0 +1,41 @@
+{
+  "index_patterns": [
+    "pmacct-*"
+  ],
+  "template": {
+    "mappings": {
+      "properties": {
+        "ip_proto": {
+          "type": "text"
+        },
+        "datetime": {
+          "type": "date"
+        },
+        "bytes": {
+          "type": "integer"
+        },
+        "ip_src": {
+          "type": "ip"
+        },
+        "port_dst": {
+          "type": "integer"
+        },
+        "port_src": {
+          "type": "integer"
+        },
+        "ip_dst": {
+          "type": "ip"
+        },
+        "packets": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "composed_of": [],
+  "priority": "0",
+  "_meta": {
+    "flow": "simple"
+  },
+  "name": "pmacct"
+}
